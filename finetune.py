@@ -62,7 +62,7 @@ val_data = train_val["test"]
 
 
 def generate_prompt(data_point):
-    return f"{data_point["user_input"]}\n{data_point["output"]}"
+    return f'{data_point["user_input"]}\n{data_point["output"]}'
 
 
 def tokenize(prompt):
