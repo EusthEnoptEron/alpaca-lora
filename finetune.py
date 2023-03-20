@@ -122,7 +122,7 @@ def generate_and_tokenize_prompt(data_point):
         - 1
     )  # no eos token
     full_tokens = tokenizer(
-        user_prompt + data_point["output"],
+        user_prompt + data_point["response"],
         truncation=True,
         max_length=CUTOFF_LEN + 1,
         padding="max_length",
