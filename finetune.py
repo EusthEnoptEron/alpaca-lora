@@ -25,7 +25,7 @@ BATCH_SIZE = 128
 GRADIENT_ACCUMULATION_STEPS = BATCH_SIZE // MICRO_BATCH_SIZE
 EPOCHS = 3  # we don't always need 3 tbh
 LEARNING_RATE = 3e-4  # the Karpathy constant
-CUTOFF_LEN = 256  # 256 accounts for about 96% of the data
+CUTOFF_LEN = 1024  # 256 accounts for about 96% of the data
 LORA_R = 8
 LORA_ALPHA = 16
 LORA_DROPOUT = 0.05
@@ -34,7 +34,7 @@ TARGET_MODULES = [
     "q_proj",
     "v_proj",
 ]
-DATA_PATH = "alpaca_data_cleaned.json"
+DATA_PATH = "/content/drive/MyDrive/AI/llama/data/pygmalion_data.json"
 OUTPUT_DIR = "lora-alpaca"
 
 device_map = "auto"
@@ -111,25 +111,17 @@ def generate_and_tokenize_prompt(data_point):
     # so that our loss is computed only on the response.
     user_prompt = (
         (
-            f"""Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
-
-### Instruction:
-{data_point["instruction"]}
-
-### Input:
-{data_point["input"]}
-
-### Response:
+            f"""<START>
+{data_point["context"]}
+{data_point["user_input"]}
+{data_point["response"]}
 """
         )
         if data_point["input"]
         else (
-            f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-### Instruction:
-{data_point["instruction"]}
-
-### Response:
+            f"""<START>
+{data_point["context"]}
+{data_point["user_input"]}
 """
         )
     )
