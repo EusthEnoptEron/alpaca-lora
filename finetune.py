@@ -70,25 +70,10 @@ data = load_dataset("json", data_files=DATA_PATH)
 
 def generate_prompt(data_point):
     # sorry about the formatting disaster gotta move fast
-    if data_point["input"]:
-        return f"""Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
-
-### Instruction:
-{data_point["instruction"]}
-
-### Input:
-{data_point["input"]}
-
-### Response:
-{data_point["output"]}"""
-    else:
-        return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-### Instruction:
-{data_point["instruction"]}
-
-### Response:
-{data_point["output"]}"""
+    return f"""<START>
+{data_point["context"]}
+{data_point["user_input"]}
+{data_point["response"]}"""
 
 
 def tokenize(prompt):
@@ -117,7 +102,7 @@ def generate_and_tokenize_prompt(data_point):
 {data_point["response"]}
 """
         )
-        if data_point["input"]
+        if data_point["user_input"]
         else (
             f"""<START>
 {data_point["context"]}
